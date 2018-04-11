@@ -25,6 +25,7 @@ public class MqttCommClient implements MqttCallback {
     private String _brokerAddr;
 
     private MqttClient _client;
+    private MqttClient _end;
 
     public MqttCommClient() {
         super();
@@ -43,12 +44,15 @@ public class MqttCommClient implements MqttCallback {
         MemoryPersistence persistence = new MemoryPersistence();
         try {
             _client = new MqttClient(_brokerAddr, _clientID, persistence);
+            _end = new MqttClient(_brokerAddr, _clientID, persistence);
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
             _Logger.info("Connecting to broker: " + _brokerAddr);
 
             _client.setCallback(this);
+            _end.setCallback(this);
             _client.connect(connectOptions);
+            _end.connect(connectOptions);
 
             _Logger.info("Connected to broker: " + _brokerAddr);
             long waitMills = 650L;
@@ -69,8 +73,6 @@ public class MqttCommClient implements MqttCallback {
             message.setQos(qoslevel);
 
             _client.subscribeWithResponse(topic);
-            _client.subscribe("/pumpmonitor/pumps/1/level");
-            Thread.sleep(10000);
             _client.publish(topic, message);
             Thread.sleep(10000);
             _Logger.info("Message syncpublished: " + message.getId() + " - " + message);
@@ -105,9 +107,10 @@ public class MqttCommClient implements MqttCallback {
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         _Logger.info("Message arrived: " + mqttMessage.toString());
+        _end.publish("Action", mqttMessage);
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        _Logger.info("Message delivered!");
+        _Logger.info("Message delivered!" + iMqttDeliveryToken.toString());
     }
 }
