@@ -65,7 +65,6 @@ public class CoapToMqttResourceHandler extends CoapResource {
     public void setMqttClient(MqttCommClient mqttClient) {
         if (mqttClient != null) {
             _mqttClient = mqttClient;
-            _Logger.info("Connected to mqtt broker, hahaha");
         }
     }
 }
