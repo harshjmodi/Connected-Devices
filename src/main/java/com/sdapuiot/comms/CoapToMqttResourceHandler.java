@@ -45,8 +45,7 @@ public class CoapToMqttResourceHandler extends CoapResource {
         // TODO: handle POST as appropriate
         try {
             context.accept();
-            System.out.println("\n\n\n" + super.getPath() + "\n\n\n");
-            if (_mqttClient.sendMessage(super.getPath(), DEFAULT_QOS_LEVEL, context.getRequestPayload())) {
+            if (_mqttClient.sendMessage(context.getRequestOptions().getUriPathString(), DEFAULT_QOS_LEVEL, context.getRequestPayload())) {
                 context.respond(ResponseCode.CREATED, "Created content.");
             } else {
                 context.respond(ResponseCode.SERVICE_UNAVAILABLE, "Oops - can't create content.");

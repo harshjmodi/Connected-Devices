@@ -19,6 +19,7 @@ public class MqttCommClient implements MqttCallback {
     private static final Logger _Logger = Logger.getLogger(MqttCommClient.class.getName()); // logger to log our every step for debugging
 
     private String _clientID;
+    private String _endID;
     private String _protocol;
     private String _host;
     private int _port;
@@ -30,13 +31,13 @@ public class MqttCommClient implements MqttCallback {
     public MqttCommClient() {
         super();
         _clientID = MqttClient.generateClientId();
+        _endID = MqttClient.generateClientId();
         _protocol = DEFAULT_PROTOCOL;
         _host = DEFAULT_HOST;
         _port = DEFAULT_PORT;
 
         _brokerAddr = DEFAULT_PROTOCOL + "://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
         _Logger.info("Broker address: " + _brokerAddr);
-
     }
 
     public boolean connect() {
@@ -44,21 +45,16 @@ public class MqttCommClient implements MqttCallback {
         MemoryPersistence persistence = new MemoryPersistence();
         try {
             _client = new MqttClient(_brokerAddr, _clientID, persistence);
-            _end = new MqttClient(_brokerAddr, _clientID, persistence);
+            _end = new MqttClient(_brokerAddr, _endID, persistence);
             MqttConnectOptions connectOptions = new MqttConnectOptions();
             connectOptions.setCleanSession(true);
-            _Logger.info("Connecting to broker: " + _brokerAddr);
-
             _client.setCallback(this);
             _end.setCallback(this);
             _client.connect(connectOptions);
             _end.connect(connectOptions);
-
-            _Logger.info("Connected to broker: " + _brokerAddr);
-            long waitMills = 650L;
-            _Logger.info("Waiting at least " + waitMills + " seconds for ping...");
-            Thread.sleep(waitMills);
             success = true;
+            _Logger.info("Client is created");
+
         } catch (Exception e) {
             _Logger.log(Level.SEVERE, "Something went wrong!");
         }
@@ -102,12 +98,13 @@ public class MqttCommClient implements MqttCallback {
     }
 
     public void connectionLost(Throwable throwable) {
-        _Logger.info("Connection is lost!");
+        _Logger.info("Connection is lost!" + throwable.toString());
     }
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
         _Logger.info("Message arrived: " + mqttMessage.toString());
         _end.publish("Action", mqttMessage);
+        _Logger.info("Sent to sensor");
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {

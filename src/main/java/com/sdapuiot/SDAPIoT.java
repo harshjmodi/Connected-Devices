@@ -34,14 +34,11 @@ public class SDAPIoT {
     public void start() {
         CoAPCommServer commServer = new CoAPCommServer("Harsh", "Bhautik", "Ronak");
         CoAPCommClient coAPCommClient = new CoAPCommClient();
-        commServer.start();
-//        coAPCommClient.get("Harsh");
-//        coAPCommClient.get("Bhautik");
-//        coAPCommClient.get("Ronak");
-        coAPCommClient.post("Harsh", "Hiiii, How are you");
-        coAPCommClient.post("Bhautik", "I'm good");
-        coAPCommClient.post("Ronak", "Okay guys, see you then");
+        coAPCommClient.post("Harsh", "Hiiii, How are you"); // use sensor.getData(); to get data and forward it
+        coAPCommClient.post("Bhautik", "I'm good"); // use sensor.getData(); to get data and forward it
+        coAPCommClient.post("Ronak", "Okay guys, see you then"); // use sensor.getData(); to get data and forward it
         commServer.stop();
+        _Logger.info("We're done here");
     }
 
 //    public void start() {
