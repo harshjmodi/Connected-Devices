@@ -2,15 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e4cecc7-4baf-4fe6-a7f2-32951020fa9e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sdapuiot/SDAPIoT.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sdapuiot/SDAPIoT.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/CoAPCommServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/CoAPCommServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/CoapToMqttResourceHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/CoapToMqttResourceHandler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/MqttCommClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/sdapuiot/comms/MqttCommClient.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,8 +21,8 @@
       <file leaf-file-name="CoAPCommClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+            <state>
+              <caret lean-forward="true" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -38,7 +33,7 @@
       <file leaf-file-name="SDAPIoT.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
+            <state relative-caret-position="152">
               <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -50,12 +45,10 @@
       <file leaf-file-name="CoAPCommServer.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommServer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="308">
-              <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+            <state relative-caret-position="427">
+              <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1080#1081#0" expanded="true" />
-                <element signature="e#1111#1112#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -64,12 +57,10 @@
       <file leaf-file-name="MqttCommClient.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
+            <state relative-caret-position="-527">
+              <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#3476#3477#0" expanded="true" />
-                <element signature="e#3527#3528#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -78,12 +69,12 @@
       <file leaf-file-name="CoapToMqttResourceHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="47" selection-start-line="47" selection-end-line="47" />
+            <state relative-caret-position="1088">
+              <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#599#600#0" expanded="true" />
-                <element signature="e#626#627#0" expanded="true" />
+                <element signature="e#604#605#0" expanded="true" />
+                <element signature="e#631#632#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -129,11 +120,11 @@
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/emu/SensorEmulatorFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/emu/HumiditySensorEmulator.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPResourceHandler.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommClient.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommServer.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java" />
       </list>
     </option>
   </component>
@@ -416,8 +407,6 @@
           <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -476,8 +465,6 @@
           <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -512,8 +499,6 @@
           <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -587,8 +572,6 @@
           <caret line="27" column="10" selection-start-line="27" selection-start-column="10" selection-end-line="27" selection-end-column="10" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -773,42 +756,40 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="37" column="34" selection-start-line="37" selection-start-column="34" selection-end-line="37" selection-end-column="34" />
+        <state>
+          <caret lean-forward="true" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="39" column="55" selection-start-line="39" selection-start-column="55" selection-end-line="39" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#3476#3477#0" expanded="true" />
-            <element signature="e#3527#3528#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="47" selection-start-line="47" selection-end-line="47" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#599#600#0" expanded="true" />
-            <element signature="e#626#627#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/SDAPIoT.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
+        <state relative-caret-position="152">
           <caret line="39" column="26" selection-start-line="39" selection-start-column="26" selection-end-line="39" selection-end-column="26" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoapToMqttResourceHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1088">
+          <caret line="66" column="37" selection-start-line="66" selection-start-column="37" selection-end-line="66" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#604#605#0" expanded="true" />
+            <element signature="e#631#632#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/MqttCommClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-527">
+          <caret line="42" column="27" selection-start-line="42" selection-start-column="27" selection-end-line="42" selection-end-column="27" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -817,12 +798,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/sdapuiot/comms/CoAPCommServer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="308">
-          <caret line="33" lean-forward="true" selection-start-line="33" selection-end-line="33" />
+        <state relative-caret-position="427">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1080#1081#0" expanded="true" />
-            <element signature="e#1111#1112#0" expanded="true" />
           </folding>
         </state>
       </provider>

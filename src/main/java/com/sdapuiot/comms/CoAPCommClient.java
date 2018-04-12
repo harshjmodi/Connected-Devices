@@ -28,8 +28,8 @@ public class CoAPCommClient {
         _host = DEFAULT_HOST;
         _port = DEFAULT_PORT;
 
-        _serverAddr = DEFAULT_PROTOCOL + "://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
-        _Logger.info("Server address: " + _serverAddr);
+        _serverAddr = _protocol + "://" + _host + ":" + _port;
+        _Logger.info("CoAP Server address is : " + _serverAddr);
 
     }
 
@@ -47,7 +47,7 @@ public class CoAPCommClient {
                 _Logger.info(link.getURI());
             }
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
     }
 
@@ -55,7 +55,6 @@ public class CoAPCommClient {
     public void get(String topic) {
         try {
             if (_client == null) {
-                System.out.print("\n\n\n" + _serverAddr);
                 _client = new CoapClient(_serverAddr);
             } else {
                 _client.setURI(_serverAddr + "/" + topic);
@@ -63,7 +62,7 @@ public class CoAPCommClient {
             _Logger.info("Getting " + topic);
             _Logger.info(_client.get().getResponseText());
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
     }
 
@@ -77,7 +76,7 @@ public class CoAPCommClient {
             _Logger.info("Posting " + topic + " with data " + data);
             _Logger.info(_client.post(data, MediaTypeRegistry.TEXT_PLAIN).getResponseText());
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
     }
 
@@ -91,7 +90,7 @@ public class CoAPCommClient {
             _Logger.info("Putting " + topic + " with data " + data);
             _Logger.info(_client.put(data, MediaTypeRegistry.TEXT_PLAIN).getResponseText());
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
     }
 
@@ -105,7 +104,7 @@ public class CoAPCommClient {
             _Logger.info("Deleting " + topic);
             _Logger.info(_client.delete().getResponseText());
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
     }
 }

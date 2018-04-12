@@ -16,6 +16,7 @@ public class CoapToMqttResourceHandler extends CoapResource {
     /**
      * @param name Name of the new resource
      */
+
     public CoapToMqttResourceHandler(String name) {
         super(name);
     }
@@ -28,6 +29,10 @@ public class CoapToMqttResourceHandler extends CoapResource {
         super(name, visible);
     }
 
+    private void init(){
+        _mqttClient = new MqttCommClient();
+        _mqttClient.connect();
+    }
 
     @Override
     public void handleGET(CoapExchange context) {
@@ -46,10 +51,10 @@ public class CoapToMqttResourceHandler extends CoapResource {
         try {
             context.accept();
             if (_mqttClient.sendMessage(context.getRequestOptions().getUriPathString(), DEFAULT_QOS_LEVEL, context.getRequestPayload())) {
-                context.respond(ResponseCode.CREATED, "Created content.");
+                context.respond(ResponseCode.CREATED, "Message sent to the gateway");
             } else {
                 context.respond(ResponseCode.SERVICE_UNAVAILABLE, "Oops - can't create content.");
-                _Logger.warning("Failed to publish message to MQTT broker.");
+                _Logger.warning("Failed to publish message to the gateway.");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +65,7 @@ public class CoapToMqttResourceHandler extends CoapResource {
     public void setMqttClient(MqttCommClient mqttClient) {
         if (mqttClient != null) {
             _mqttClient = mqttClient;
-            _mqttClient.connect();
+            _Logger.info("Connected to mqtt broker, hahaha");
         }
     }
 }

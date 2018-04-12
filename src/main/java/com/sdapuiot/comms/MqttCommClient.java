@@ -36,7 +36,7 @@ public class MqttCommClient implements MqttCallback {
         _host = DEFAULT_HOST;
         _port = DEFAULT_PORT;
 
-        _brokerAddr = DEFAULT_PROTOCOL + "://" + DEFAULT_HOST + ":" + DEFAULT_PORT;
+        _brokerAddr = _protocol + "://" + _host + ":" + _port;
         _Logger.info("Broker address: " + _brokerAddr);
     }
 
@@ -56,29 +56,23 @@ public class MqttCommClient implements MqttCallback {
             _Logger.info("Client is created");
 
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Something went wrong!");
+            e.printStackTrace();
         }
         return success;
     }
 
     public boolean sendMessage(String topic, int qoslevel, byte[] msg) {
         try {
-            _Logger.info("Publishing sync message..");
 
             MqttMessage message = new MqttMessage(msg);
             message.setQos(qoslevel);
 
             _client.subscribeWithResponse(topic);
             _client.publish(topic, message);
-            Thread.sleep(10000);
-            _Logger.info("Message syncpublished: " + message.getId() + " - " + message);
-            Thread.sleep(2000);
+            _Logger.info("Message published: " + message);
             _client.unsubscribe(topic);
             return true;
         } catch (MqttException e) {
-            e.printStackTrace();
-            return false;
-        } catch (InterruptedException e) {
             e.printStackTrace();
             return false;
         }
@@ -89,16 +83,16 @@ public class MqttCommClient implements MqttCallback {
 
         try {
             _client.disconnect();
-            _Logger.info("Disconnected from broker; " + _brokerAddr);
+            _Logger.info("Disconnected from broker: " + _brokerAddr);
             success = true;
         } catch (Exception e) {
-            _Logger.log(Level.SEVERE, "Failed to disoonnect from broker: " + _brokerAddr);
+            _Logger.log(Level.SEVERE, "Failed to disconnect from broker: " + _brokerAddr);
         }
         return success;
     }
 
     public void connectionLost(Throwable throwable) {
-        _Logger.info("Connection is lost!" + throwable.toString());
+        _Logger.info("Connection is lost because of : " + throwable.toString());
     }
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
@@ -108,6 +102,6 @@ public class MqttCommClient implements MqttCallback {
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-        _Logger.info("Message delivered!" + iMqttDeliveryToken.toString());
+        _Logger.info("Message delivered with token " + iMqttDeliveryToken.toString());
     }
 }

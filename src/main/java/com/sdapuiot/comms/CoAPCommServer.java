@@ -20,19 +20,23 @@ public class CoAPCommServer {
      */
     public CoAPCommServer(String... resourceNames) {
         _server = new CoapServer();
+        _Logger.info("Created server");
         _mqttClient = new MqttCommClient();
+        _mqttClient.connect();
         if (resourceNames != null) {
             for (String resourceName : resourceNames) {
                 CoapToMqttResourceHandler cmrh = new CoapToMqttResourceHandler(resourceName);
                 cmrh.setMqttClient(_mqttClient);
                 _server.add(cmrh);
-                _Logger.info("Adding server resource handler: " + cmrh.getURI());
+                _Logger.info("Added server resource handler: " + cmrh.getURI());
             }
         }
         _server.start();
+        _Logger.info("Server is up");
     }
 
     public void stop() {
         _server.start();
+        _Logger.info("Server is stopped");
     }
 }
