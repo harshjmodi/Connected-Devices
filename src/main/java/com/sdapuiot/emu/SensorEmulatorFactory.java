@@ -36,8 +36,12 @@ public class SensorEmulatorFactory {
         switch (type)
 
         {
-            case HUMIDITY:
-                emulator = new HumiditySensorEmulator();
+            case PRESSURE:
+                emulator = new PressureSensorEmulator();
+            case GEOLOCATION:
+                emulator = new GeolocationSensorEmulator();
+            case SPEED:
+                emulator = new SpeedSensorEmulator();
         }
         return emulator;
     }
@@ -50,8 +54,12 @@ public class SensorEmulatorFactory {
     public ISensorEmulator createSensorEmulator(SensorTypeEnum type, float min, float max) {
         ISensorEmulator emulator = null;
         switch (type) {
-            case HUMIDITY:
-                emulator = new HumiditySensorEmulator(min, max);
+            case PRESSURE:
+                emulator = new PressureSensorEmulator(min, max);
+            case GEOLOCATION:
+                emulator = new GeolocationSensorEmulator(min, max);
+            case SPEED:
+                emulator = new SpeedSensorEmulator(min, max);
         }
         return emulator;
     }
