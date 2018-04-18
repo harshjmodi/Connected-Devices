@@ -2,11 +2,10 @@ package com.sdapuiot;
 
 import com.sdapuiot.comms.CoAPCommClient;
 import com.sdapuiot.comms.CoAPCommServer;
-import com.sdapuiot.comms.MqttCommClient;
+import com.sdapuiot.emu.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -20,7 +19,6 @@ public class SDAPIoT {
     //static
     private static final Logger _Logger = Logger.getLogger(SDAPIoT.class.getName());
     private static SDAPIoT _App;
-    private MqttCommClient _mqttConnector;
 
     /**
      * @param args get commandline args in this variable
@@ -35,10 +33,35 @@ public class SDAPIoT {
         CoAPCommServer commServer = new CoAPCommServer("Harsh", "Bhautik", "Ronak");
         CoAPCommClient coAPCommClient = new CoAPCommClient();
         coAPCommClient.post("Harsh", "Dummy"); // use sensor.getData(); to get data and forward it
-        coAPCommClient.post("Harsh", "Hiiii, How are you"); // use sensor.getData(); to get data and forward it
-        coAPCommClient.post("Bhautik", "I'm good"); // use sensor.getData(); to get data and forward it
-        coAPCommClient.post("Ronak", "Okay guys, see you then"); // use sensor.getData(); to get data and forward it
-        //commServer.stop();
+        PressureSensorEmulator pressureSensor = (PressureSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.PRESSURE);
+        GeolocationSensorEmulator geolocationSensor = (GeolocationSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.GEOLOCATION);
+        SpeedSensorEmulator speedSensor = (SpeedSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.SPEED);
+        for(int i=0;i<10;i++){
+            speedSensor.run();
+            geolocationSensor.run();
+            pressureSensor.run();
+            float pressure = speedSensor.getCurrentThreshold();
+            String gps = speedSensor.getCurrentThreshold() + " + ipv6";
+            String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+            String unit = "Pounds";
+            float speed = speedSensor.getCurrentThreshold();
+            String msg = "{\n" +
+                    " \"BreakPressure\" : " + pressure + "\n" +
+                    " \"Speed\" : " + "\"" + speed + "m/s" + "\"" + "\n" +
+                    " \"Location\" : " + "\"" + gps + "\"\n" +
+                    " \"Unit\" : " + "\"" + unit + "\" \n" +
+                    " \"Time\" : " + "\"" + time + "\"" + "\n" +
+                    "}";
+            coAPCommClient.post("Harsh", msg); // use sensor.getData(); to get data and forward it
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+//            coAPCommClient.post("Bhautik", "I'm good"); // use sensor.getData(); to get data and forward it
+//            coAPCommClient.post("Ronak", "Okay guys, see you then"); // use sensor.getData(); to get data and forward it
+        }
+        commServer.stop();
         _Logger.info("We're done here");
     }
 
@@ -46,16 +69,7 @@ public class SDAPIoT {
 //        try {
 //            _mqttConnector = new MqttCommClient();
 //            if (_mqttConnector.connect()) {
-//                int pressure = 15;
-//                String gps = "long, lat + ipv6";
-//                String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-//                String unit = "Pounds";
-//                String msg = "{\n" +
-//                        " \"Pressure\" : " + pressure + "\n" +
-//                        " \"Location\" : " + "\"" + gps + "\"\n" +
-//                        " \"Unit\" : " + "\"" + unit + "\" \n" +
-//                        " \"Time\" : " + "\"" + time + "\"" + "\n" +
-//                        "}";
+
 //                String topic = "SDAP";
 //                int qos = 2;
 //                _mqttConnector.sendMessage(topic, qos, msg);

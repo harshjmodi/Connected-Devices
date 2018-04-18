@@ -38,10 +38,13 @@ public class SensorEmulatorFactory {
         {
             case PRESSURE:
                 emulator = new PressureSensorEmulator();
+                break;
             case GEOLOCATION:
                 emulator = new GeolocationSensorEmulator();
+                break;
             case SPEED:
                 emulator = new SpeedSensorEmulator();
+                break;
         }
         return emulator;
     }
@@ -56,10 +59,13 @@ public class SensorEmulatorFactory {
         switch (type) {
             case PRESSURE:
                 emulator = new PressureSensorEmulator(min, max);
+                break;
             case GEOLOCATION:
                 emulator = new GeolocationSensorEmulator(min, max);
+                break;
             case SPEED:
                 emulator = new SpeedSensorEmulator(min, max);
+                break;
         }
         return emulator;
     }
