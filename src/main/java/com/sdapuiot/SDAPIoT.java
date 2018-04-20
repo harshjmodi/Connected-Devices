@@ -36,21 +36,27 @@ public class SDAPIoT {
         PressureSensorEmulator pressureSensor = (PressureSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.PRESSURE);
         GeolocationSensorEmulator geolocationSensor = (GeolocationSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.GEOLOCATION);
         SpeedSensorEmulator speedSensor = (SpeedSensorEmulator) SensorEmulatorFactory.getInstance().createSensorEmulator(SensorTypeEnum.SPEED);
-        for(int i=0;i<10;i++){
+        float pressure;
+        String gps;
+        String unit;
+        float speed;
+        String msg = "";
+        for (int i = 0; i < 10; i++) {
             speedSensor.run();
             geolocationSensor.run();
             pressureSensor.run();
-            float pressure = speedSensor.getCurrentThreshold();
-            String gps = speedSensor.getCurrentThreshold() + " + ipv6";
-            String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-            String unit = "Pounds";
-            float speed = speedSensor.getCurrentThreshold();
-            String msg = "{\n" +
-                    " \"BreakPressure\" : " + pressure + "\n" +
-                    " \"Speed\" : " + "\"" + speed + "m/s" + "\"" + "\n" +
-                    " \"Location\" : " + "\"" + gps + "\"\n" +
-                    " \"Unit\" : " + "\"" + unit + "\" \n" +
-                    " \"Time\" : " + "\"" + time + "\"" + "\n" +
+            pressure = speedSensor.getCurrentThreshold();
+            gps = speedSensor.getCurrentThreshold() + " + ipv6";
+            unit = "Pounds";
+            speed = speedSensor.getCurrentThreshold();
+            String group = "Automotive efficiency";
+            msg = "\n{\n" +
+                    " \"group\" : " + group + ",\n" +
+                    " \"breakpressure\" : " + pressure + ",\n" +
+                    " \"speed\" : " + speed + ",\n" +
+                    " \"location\" : " + "\"" + gps + "\",\n" +
+                    " \"unit\" : " + "\"" + unit + "\",\n" +
+                    " \"time\" : " + "\"" + new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date()) + "\"" + "\n" +
                     "}";
             coAPCommClient.post("Harsh", msg); // use sensor.getData(); to get data and forward it
             try {
@@ -64,28 +70,4 @@ public class SDAPIoT {
         commServer.stop();
         _Logger.info("We're done here");
     }
-
-//    public void start() {
-//        try {
-//            _mqttConnector = new MqttCommClient();
-//            if (_mqttConnector.connect()) {
-
-//                String topic = "SDAP";
-//                int qos = 2;
-//                _mqttConnector.sendMessage(topic, qos, msg);
-//            } else {
-//                _Logger.log(Level.WARNING, "Failed to discover to broker. ");
-//            }
-//        } catch (Exception e) {
-//            _Logger.log(Level.SEVERE, "Failed to start app.", e);
-//        } finally {
-//            if (_mqttConnector.disconnect()) {
-//                _Logger.info("Done");
-//            } else {
-//                _Logger.log(Level.WARNING, "Failed to disconnect from broker. ");
-//            }
-//        }
-//
-//    }
-
 }

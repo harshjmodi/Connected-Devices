@@ -6,10 +6,17 @@ import org.eclipse.californium.core.WebLink;
 import org.eclipse.californium.core.coap.MediaTypeRegistry;
 
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author Harsh Modi
+ * This is our class to create CoAp client
+ * _client is our CoAP client which exists on sensor
+ * _client represents sensor
+ */
+
 public class CoAPCommClient {
+    //set defaults
     private static final String DEFAULT_PROTOCOL = "coap";
     private static final String DEFAULT_HOST = "localhost";
     private static final int DEFAULT_PORT = 5683;
@@ -71,6 +78,7 @@ public class CoAPCommClient {
             if (_client == null) {
                 _client = new CoapClient(_serverAddr);
             } else {
+                //we have to update the URI so that data is sent to correct topic every time
                 _client.setURI(_serverAddr + "/" + topic);
             }
             _Logger.info("Posting " + topic + " with data " + data);

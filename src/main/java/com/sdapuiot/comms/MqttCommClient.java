@@ -3,23 +3,29 @@ package com.sdapuiot.comms;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
  * @author Harsh Modi
- * <p>
- * This class implements Mqtt function for callback
+ * This is our class to handle both mqtt clinets which are gateway and the actuator
+ * _client represents gateway and _end represents the actuator device
  */
 public class MqttCommClient implements MqttCallback {
+    //defaults
     private static final String DEFAULT_PROTOCOL = "tcp";
     private static final String DEFAULT_HOST = "test.mosquitto.org"; // we're using this host as out broker
     private static final int DEFAULT_PORT = 1883;
     private static final Logger _Logger = Logger.getLogger(MqttCommClient.class.getName()); // logger to log our every step for debugging
 
+    //each mqtt instance must have different clientID otherwise the broker will desconnect on more than one connection from same id
     private String _clientID;
     private String _endID;
+
     private String _protocol;
     private String _host;
     private int _port;
@@ -42,6 +48,7 @@ public class MqttCommClient implements MqttCallback {
 
     public boolean connect() {
         boolean success = false;
+        //persistence is to avoid reconnecting every time and to be able to reuse same connection
         MemoryPersistence persistence = new MemoryPersistence();
         try {
             _client = new MqttClient(_brokerAddr, _clientID, persistence);
@@ -50,8 +57,11 @@ public class MqttCommClient implements MqttCallback {
             connectOptions.setCleanSession(true);
             _client.setCallback(this);
             _end.setCallback(this);
+            //connection is established here to avoid reconnecting evetytime from setMqttConnection();
             _client.connect(connectOptions);
             _end.connect(connectOptions);
+            //this is Bhautik topic
+            _end.subscribe("devanshi");//this is to demonstrate that the integration is done properly however without sufficient information from him I'm unable to parse the code
             success = true;
             _Logger.info("Client is created");
 
@@ -66,7 +76,8 @@ public class MqttCommClient implements MqttCallback {
 
             MqttMessage message = new MqttMessage(msg);
             message.setQos(qoslevel);
-
+            //I'm subscribing to my own topic so that message will bounce back to me
+            // this way I'll be able to act as gateway itself and after processing the data and performing analytics I'llforward the action to be taken to my actuator(enforcer component)
             _client.subscribeWithResponse(topic);
             _client.publish(topic, message);
             _Logger.info("Message published: " + message);
@@ -96,12 +107,52 @@ public class MqttCommClient implements MqttCallback {
     }
 
     public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-        _Logger.info("Message arrived: " + mqttMessage.toString());
-        _end.publish("Action", mqttMessage);
+        _Logger.info("Message arrived: " + mqttMessage.toString());// this is the message that will reach the gateway
+        //now I'll process the data and send what action do I need to take to the actuator
+        _Logger.info("Acting on data");
+        //however for demonstration purpose I'll calculate the probability of accident and send it to bhautik, this is done and he's getting the message
+        _end.publish("HarshAction", new MqttMessage(analytics(mqttMessage.toString()).getBytes()));
         _Logger.info("Sent to sensor");
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
         _Logger.info("Message delivered with token " + iMqttDeliveryToken.toString());
+    }
+
+    public String analytics(String data) {
+        try {
+            JSONObject object = new JSONObject(data);
+            String result = "";
+            System.out.println("Here in!!");
+            Float speed = object.getFloat("Speed");
+            Float pressure = object.getFloat("Speed");
+            if (speed > 100 && pressure > 50) {
+                result = "0.80";
+            } else if (speed > 100) {
+                result = ".75";
+            } else if (pressure > 50) {
+                result = ".70";
+            } else {
+                result = ".25";
+            }
+            return result;
+        } catch (JSONException e) {
+            //this exception will be thrown when bhautiks data is arrived because his format is not JSON
+            //so I'm processing his data on catch
+            ArrayList<Integer> numbers = new ArrayList<Integer>();
+            System.out.println("Here!!");
+            String[] arr1 = data.trim().split(", ");
+            for (int i = 2; i < arr1.length; i++) {
+                arr1[i] = arr1[i].replaceAll("[^\\d-]", "");
+                numbers.add(Integer.parseInt(arr1[i]));
+            }
+
+            if (numbers.get(1) < -1 && numbers.get(1) > -20) {
+                System.out.println("Weather is too cold!!");
+            } else {
+                System.out.println("Lovely weather!!");
+            }
+        }
+        return "";
     }
 }
