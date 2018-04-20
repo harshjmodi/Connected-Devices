@@ -10,7 +10,7 @@ import java.util.logging.Logger;
  * @author Harsh Modi
  * This class it responsible for handling response to all the POST call to the server for given resources
  */
-public class CoapToMqttResourceHandler extends CoapResource {
+public class CoAPToMqttResourceHandler extends CoapResource {
     public static final int DEFAULT_QOS_LEVEL = 2;
     private static final Logger _Logger = Logger.getLogger(CoAPCommServer.class.getName());
     //every handler object has it's own mqtt reference so that we can use different mqtt clients if desired
@@ -20,7 +20,7 @@ public class CoapToMqttResourceHandler extends CoapResource {
      * @param name Name of the new resource
      */
 
-    public CoapToMqttResourceHandler(String name) {
+    public CoAPToMqttResourceHandler(String name) {
         super(name);
     }
 
@@ -29,19 +29,8 @@ public class CoapToMqttResourceHandler extends CoapResource {
      * @param visible Indicate if it's visible or not
      *                if this parameter is set to false then it won't show up in discover call
      */
-    public CoapToMqttResourceHandler(String name, boolean visible) {
+    public CoAPToMqttResourceHandler(String name, boolean visible) {
         super(name, visible);
-    }
-
-    @Override
-    public void handleGET(CoapExchange context) {
-        // TODO: handle GET as appropriate
-        String responseMsg = "This is a generic response to the GET request for path: " + super.getName();
-        context.accept();
-
-        context.respond(responseMsg);
-        _Logger.info("Handling GET: " + responseMsg);
-        _Logger.info(context.getRequestCode().toString() + ": " + context.getRequestText());
     }
 
     /**

@@ -3,7 +3,6 @@ package com.sdapuiot.comms;
 
 import org.eclipse.paho.client.mqttv3.*;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -61,7 +60,7 @@ public class MqttCommClient implements MqttCallback {
             _client.connect(connectOptions);
             _end.connect(connectOptions);
             //this is Bhautik topic
-            _end.subscribe("devanshi");//this is to demonstrate that the integration is done properly however without sufficient information from him I'm unable to parse the code
+            _client.subscribe("devanshi");//this is to demonstrate the integration I'm subscribing to bhautics topic and will receive his messages
             success = true;
             _Logger.info("Client is created");
 
@@ -77,8 +76,8 @@ public class MqttCommClient implements MqttCallback {
             MqttMessage message = new MqttMessage(msg);
             message.setQos(qoslevel);
             //I'm subscribing to my own topic so that message will bounce back to me
-            // this way I'll be able to act as gateway itself and after processing the data and performing analytics I'llforward the action to be taken to my actuator(enforcer component)
-            _client.subscribeWithResponse(topic);
+            // this way I'll be able to act as gateway itself and after processing the data and performing analytics I'll forward the action to be taken to my actuator(enforcer component)
+            _client.subscribeWithResponse("Harsh");
             _client.publish(topic, message);
             _Logger.info("Message published: " + message);
             _client.unsubscribe(topic);
@@ -106,12 +105,12 @@ public class MqttCommClient implements MqttCallback {
         _Logger.info("Connection is lost because of : " + throwable.toString());
     }
 
-    public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
+    public void messageArrived(String topic, MqttMessage mqttMessage) throws Exception {
         _Logger.info("Message arrived: " + mqttMessage.toString());// this is the message that will reach the gateway
         //now I'll process the data and send what action do I need to take to the actuator
         _Logger.info("Acting on data");
         //however for demonstration purpose I'll calculate the probability of accident and send it to bhautik, this is done and he's getting the message
-        _end.publish("HarshAction", new MqttMessage(analytics(mqttMessage.toString()).getBytes()));
+        _end.publish("HarshAction", new MqttMessage(analytics(mqttMessage.toString(),topic).getBytes()));
         _Logger.info("Sent to sensor");
     }
 
@@ -119,13 +118,12 @@ public class MqttCommClient implements MqttCallback {
         _Logger.info("Message delivered with token " + iMqttDeliveryToken.toString());
     }
 
-    public String analytics(String data) {
-        try {
+    public String analytics(String data, String topic) {
+        if(topic.equals("Harsh")){
             JSONObject object = new JSONObject(data);
             String result = "";
-            System.out.println("Here in!!");
-            Float speed = object.getFloat("Speed");
-            Float pressure = object.getFloat("Speed");
+            Float speed = object.getFloat("speed");
+            Float pressure = object.getFloat("speed");
             if (speed > 100 && pressure > 50) {
                 result = "0.80";
             } else if (speed > 100) {
@@ -136,22 +134,25 @@ public class MqttCommClient implements MqttCallback {
                 result = ".25";
             }
             return result;
-        } catch (JSONException e) {
-            //this exception will be thrown when bhautiks data is arrived because his format is not JSON
+        } else if (topic.equals("devanshi")){
+            //this messages from bhautik are string messages in his own format so I'm looking out for exception in case he might change the format
             //so I'm processing his data on catch
-            ArrayList<Integer> numbers = new ArrayList<Integer>();
-            System.out.println("Here!!");
-            String[] arr1 = data.trim().split(", ");
-            for (int i = 2; i < arr1.length; i++) {
-                arr1[i] = arr1[i].replaceAll("[^\\d-]", "");
-                numbers.add(Integer.parseInt(arr1[i]));
+            try{
+                ArrayList<Integer> numbers = new ArrayList<Integer>();
+                String[] arr1 = data.trim().split(", ");
+                float temp = Float.parseFloat(arr1[1].split(" ")[1].replaceAll("C",""));
+                // I'm parsing temperature from his message and based on the temperature I'll print one message or another
+                if (temp < -1 && temp > -20) {
+                    System.out.println("Weather is too cold!!");
+                } else {
+                    System.out.println("Lovely weather!!");
+                }
+            } catch (Exception e){
+                e.printStackTrace();
             }
-
-            if (numbers.get(1) < -1 && numbers.get(1) > -20) {
-                System.out.println("Weather is too cold!!");
-            } else {
-                System.out.println("Lovely weather!!");
-            }
+        }
+        else {
+            return "";
         }
         return "";
     }

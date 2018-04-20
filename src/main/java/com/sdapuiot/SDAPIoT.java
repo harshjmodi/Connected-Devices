@@ -63,7 +63,7 @@ public class SDAPIoT {
             coAPCommClient.post("Harsh", msg);
             try {
                 //delay is must to make sure that data is completely traversed and doesn't exhaust sensor resources
-                Thread.sleep(2000);
+                Thread.sleep(3000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

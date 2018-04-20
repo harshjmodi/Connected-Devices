@@ -32,7 +32,7 @@ public class CoAPCommServer {
         _mqttClient.connect();//it's done outside for loop to avoid reconnecting and thus losing the connection
         if (resourceNames != null) {
             for (String resourceName : resourceNames) {
-                CoapToMqttResourceHandler cmrh = new CoapToMqttResourceHandler(resourceName);
+                CoAPToMqttResourceHandler cmrh = new CoAPToMqttResourceHandler(resourceName);
                 cmrh.setMqttClient(_mqttClient);//reference of same object is assigned to each and every resourcehandler
                 _server.add(cmrh);
                 _Logger.info("Added server resource handler: " + cmrh.getURI());
